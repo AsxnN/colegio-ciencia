@@ -11,15 +11,33 @@ use App\Models\Curso;
 use App\Models\Nota;
 use Illuminate\Support\Facades\Hash;
 use Faker\Factory as Faker;
+use Illuminate\Support\Facades\DB;
 
 class EstudiantesMasivosSeeder extends Seeder
 {
     public function run(): void
     {
         $faker = Faker::create('es_PE');
-        
+
+        foreach (range(1, 50) as $index) {
+            DB::table('estudiantes')->insert([
+                'usuario_id' => $index,
+                'seccion_id' => rand(1, 5),
+                'padres_divorciados' => $faker->boolean,
+                'promedio_anterior' => $faker->randomFloat(2, 10, 20),
+                'faltas' => rand(0, 10),
+                'horas_estudio_semanal' => rand(2, 20),
+                'participacion_clases' => rand(1, 5),
+                'nivel_socioeconomico' => $faker->randomElement(['bajo', 'medio', 'alto']),
+                'vive_con' => $faker->randomElement(['padres', 'madre', 'padre', 'otros']),
+                'internet_en_casa' => $faker->boolean,
+                'dispositivo_propio' => $faker->boolean,
+                'motivacion' => $faker->randomElement(['Alta', 'Media', 'Baja']),
+            ]);
+        }
+
         $estudianteRole = Role::where('nombre', 'Estudiante')->first();
-        
+
         if (!$estudianteRole) {
             $this->command->error('El rol "Estudiante" no existe. Ejecuta primero RoleSeeder.');
             return;
@@ -46,29 +64,119 @@ class EstudiantesMasivosSeeder extends Seeder
         $this->command->info('📚 Todos los estudiantes tendrán los 13 cursos');
         $this->command->info('🏫 Todos los estudiantes estarán en una sección');
         $this->command->info('');
-        
+
         // Nombres comunes peruanos
         $nombresHombres = [
-            'Juan', 'Carlos', 'José', 'Luis', 'Miguel', 'Jorge', 'Pedro', 'Manuel',
-            'Francisco', 'Antonio', 'Diego', 'Fernando', 'Ricardo', 'Alberto', 'Roberto',
-            'Alejandro', 'Daniel', 'Javier', 'Andrés', 'Pablo', 'Rafael', 'Sergio',
-            'Raúl', 'Víctor', 'Eduardo', 'Gustavo', 'Óscar', 'César', 'Gabriel', 'Martín'
+            'Juan',
+            'Carlos',
+            'José',
+            'Luis',
+            'Miguel',
+            'Jorge',
+            'Pedro',
+            'Manuel',
+            'Francisco',
+            'Antonio',
+            'Diego',
+            'Fernando',
+            'Ricardo',
+            'Alberto',
+            'Roberto',
+            'Alejandro',
+            'Daniel',
+            'Javier',
+            'Andrés',
+            'Pablo',
+            'Rafael',
+            'Sergio',
+            'Raúl',
+            'Víctor',
+            'Eduardo',
+            'Gustavo',
+            'Óscar',
+            'César',
+            'Gabriel',
+            'Martín'
         ];
 
         $nombresMujeres = [
-            'María', 'Carmen', 'Ana', 'Rosa', 'Isabel', 'Teresa', 'Patricia', 'Laura',
-            'Sofía', 'Claudia', 'Gabriela', 'Andrea', 'Mónica', 'Sandra', 'Verónica',
-            'Diana', 'Paola', 'Natalia', 'Valeria', 'Lucía', 'Daniela', 'Carolina',
-            'Fernanda', 'Paula', 'Adriana', 'Elena', 'Julia', 'Beatriz', 'Alejandra', 'Victoria'
+            'María',
+            'Carmen',
+            'Ana',
+            'Rosa',
+            'Isabel',
+            'Teresa',
+            'Patricia',
+            'Laura',
+            'Sofía',
+            'Claudia',
+            'Gabriela',
+            'Andrea',
+            'Mónica',
+            'Sandra',
+            'Verónica',
+            'Diana',
+            'Paola',
+            'Natalia',
+            'Valeria',
+            'Lucía',
+            'Daniela',
+            'Carolina',
+            'Fernanda',
+            'Paula',
+            'Adriana',
+            'Elena',
+            'Julia',
+            'Beatriz',
+            'Alejandra',
+            'Victoria'
         ];
 
         $apellidos = [
-            'García', 'Rodríguez', 'Martínez', 'López', 'González', 'Pérez', 'Sánchez',
-            'Ramírez', 'Torres', 'Flores', 'Rivera', 'Gómez', 'Díaz', 'Cruz', 'Morales',
-            'Reyes', 'Jiménez', 'Hernández', 'Ruiz', 'Vargas', 'Castro', 'Romero',
-            'Vega', 'Mendoza', 'Silva', 'Rojas', 'Medina', 'Ortiz', 'Delgado', 'Herrera',
-            'Gutiérrez', 'Chávez', 'Quispe', 'Huamán', 'Ccama', 'Mamani', 'Condori',
-            'Paredes', 'Aguilar', 'Salazar', 'Campos', 'Navarro', 'León', 'Moreno'
+            'García',
+            'Rodríguez',
+            'Martínez',
+            'López',
+            'González',
+            'Pérez',
+            'Sánchez',
+            'Ramírez',
+            'Torres',
+            'Flores',
+            'Rivera',
+            'Gómez',
+            'Díaz',
+            'Cruz',
+            'Morales',
+            'Reyes',
+            'Jiménez',
+            'Hernández',
+            'Ruiz',
+            'Vargas',
+            'Castro',
+            'Romero',
+            'Vega',
+            'Mendoza',
+            'Silva',
+            'Rojas',
+            'Medina',
+            'Ortiz',
+            'Delgado',
+            'Herrera',
+            'Gutiérrez',
+            'Chávez',
+            'Quispe',
+            'Huamán',
+            'Ccama',
+            'Mamani',
+            'Condori',
+            'Paredes',
+            'Aguilar',
+            'Salazar',
+            'Campos',
+            'Navarro',
+            'León',
+            'Moreno'
         ];
 
         $motivaciones = ['Alta', 'Media', 'Baja'];
@@ -79,10 +187,10 @@ class EstudiantesMasivosSeeder extends Seeder
 
         while ($estudiantesCreados < 200 && $intentos < $maxIntentos) {
             $intentos++;
-            
+
             // Generar DNI único
             $dni = str_pad(rand(10000000, 99999999), 8, '0', STR_PAD_LEFT);
-            
+
             // Verificar si el DNI ya existe
             if (User::where('dni', $dni)->exists()) {
                 continue;
@@ -90,10 +198,10 @@ class EstudiantesMasivosSeeder extends Seeder
 
             // Generar datos aleatorios
             $esHombre = rand(0, 1);
-            $nombre = $esHombre 
+            $nombre = $esHombre
                 ? $nombresHombres[array_rand($nombresHombres)]
                 : $nombresMujeres[array_rand($nombresMujeres)];
-            
+
             $apellido1 = $apellidos[array_rand($apellidos)];
             $apellido2 = $apellidos[array_rand($apellidos)];
             $apellidosCompletos = "$apellido1 $apellido2";
@@ -101,9 +209,9 @@ class EstudiantesMasivosSeeder extends Seeder
 
             // Generar email único
             $emailBase = strtolower(
-                $this->removeAccents($nombre) . '.' . 
-                $this->removeAccents($apellido1) . 
-                rand(1, 999)
+                $this->removeAccents($nombre) . '.' .
+                    $this->removeAccents($apellido1) .
+                    rand(1, 999)
             );
             $email = $emailBase . '@estudiante.com';
 
@@ -127,8 +235,16 @@ class EstudiantesMasivosSeeder extends Seeder
                 $estudiante = Estudiante::create([
                     'usuario_id' => $user->id,
                     'seccion_id' => $seccionId,
+                    'padres_divorciados' => rand(0, 1), // 0 = no, 1 = sí
                     'promedio_anterior' => round(rand(800, 2000) / 100, 2), // 8.00 a 20.00
-                    'motivacion' => $motivaciones[array_rand($motivaciones)],
+                    'faltas' => rand(0, 15), // número de inasistencias
+                    'horas_estudio_semanal' => rand(2, 25), // horas por semana
+                    'participacion_clases' => rand(0, 1), // 0 = baja, 1 = activa
+                    'nivel_socioeconomico' => collect(['bajo', 'medio', 'alto'])->random(),
+                    'vive_con' => collect(['padres', 'madre', 'padre', 'otros'])->random(),
+                    'internet_en_casa' => rand(0, 1), // 0 = no, 1 = sí
+                    'dispositivo_propio' => rand(0, 1), // 0 = no, 1 = sí
+                    'motivacion' => collect(['Alta', 'Media', 'Baja'])->random(),
                 ]);
 
                 // Asignar TODOS los 13 cursos a cada estudiante
@@ -158,7 +274,6 @@ class EstudiantesMasivosSeeder extends Seeder
                 if ($estudiantesCreados % 20 == 0) {
                     $this->command->info("✅ Creados {$estudiantesCreados}/200 estudiantes...");
                 }
-
             } catch (\Exception $e) {
                 $this->command->warn("⚠️  Error creando estudiante (intento {$intentos}): " . $e->getMessage());
                 continue;
@@ -173,7 +288,7 @@ class EstudiantesMasivosSeeder extends Seeder
         $this->command->info('📧 Contraseña para todos: password123');
         $this->command->info('📚 Cursos por estudiante: 13 (todos los cursos)');
         $this->command->info('');
-        
+
         // Estadísticas por sección
         $this->command->info('📊 DISTRIBUCIÓN POR SECCIÓN:');
         foreach ($secciones as $seccion) {
@@ -181,23 +296,23 @@ class EstudiantesMasivosSeeder extends Seeder
             $porcentaje = $estudiantesCreados > 0 ? round(($count / $estudiantesCreados) * 100, 1) : 0;
             $this->command->info("   - {$seccion->nombre_completo}: {$count} estudiantes ({$porcentaje}%)");
         }
-        
+
         // Estadísticas de notas
         $this->command->info('');
         $this->command->info('📝 ESTADÍSTICAS DE NOTAS:');
         $totalNotas = Nota::count();
         $aprobados = Nota::where('promedio_final', '>=', 14)->count();
         $desaprobados = Nota::where('promedio_final', '<', 14)->whereNotNull('promedio_final')->count();
-        
+
         $this->command->info("   - Total de notas registradas: {$totalNotas}");
         $this->command->info("   - Aprobados: {$aprobados}");
         $this->command->info("   - Desaprobados: {$desaprobados}");
-        
+
         if ($totalNotas > 0) {
             $promedioGeneral = Nota::whereNotNull('promedio_final')->avg('promedio_final');
             $this->command->info("   - Promedio general: " . round($promedioGeneral, 2));
         }
-        
+
         // Estadísticas por curso
         $this->command->info('');
         $this->command->info('📊 ESTADÍSTICAS POR CURSO:');
@@ -207,7 +322,7 @@ class EstudiantesMasivosSeeder extends Seeder
                 ->avg('promedio_final');
             $this->command->info("   - {$curso->nombre}: " . round($promedioCurso, 2));
         }
-        
+
         $this->command->info('═══════════════════════════════════════════════');
     }
 
@@ -223,7 +338,7 @@ class EstudiantesMasivosSeeder extends Seeder
 
         // Distribución de notas más realista
         $random = rand(1, 100);
-        
+
         if ($random <= 10) {
             // 10% notas bajas (8-11)
             return round(rand(800, 1100) / 100, 2);
@@ -248,9 +363,18 @@ class EstudiantesMasivosSeeder extends Seeder
     private function removeAccents(string $text): string
     {
         $unwanted_array = [
-            'á'=>'a', 'é'=>'e', 'í'=>'i', 'ó'=>'o', 'ú'=>'u',
-            'Á'=>'A', 'É'=>'E', 'Í'=>'I', 'Ó'=>'O', 'Ú'=>'U',
-            'ñ'=>'n', 'Ñ'=>'N'
+            'á' => 'a',
+            'é' => 'e',
+            'í' => 'i',
+            'ó' => 'o',
+            'ú' => 'u',
+            'Á' => 'A',
+            'É' => 'E',
+            'Í' => 'I',
+            'Ó' => 'O',
+            'Ú' => 'U',
+            'ñ' => 'n',
+            'Ñ' => 'N'
         ];
         return strtr($text, $unwanted_array);
     }

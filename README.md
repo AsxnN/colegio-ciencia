@@ -59,3 +59,20 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Integración con servicio ML (Flask)
+
+Este repositorio puede integrarse con un servicio de Machine Learning implementado en Flask (proyecto separado). Se incluyó un `docker-compose.yml` para facilitar el desarrollo con ambos servicios.
+
+- Servicio Flask: debe estar en `C:/Users/ANGELA/Downloads/ia/ia/flask_project/flask_server` y exponer POST `/predict`.
+- Variable de entorno para Laravel: `FLASK_URL` (ver `.env.example`).
+
+Levantar ambos servicios (ejemplo):
+
+```powershell
+docker compose up --build -d
+```
+
+Laravel quedará disponible en http://localhost:8000 y Flask en http://localhost:5000.
+
+Si prefieres ejecutar localmente sin Docker, sigue los pasos en `.env.example` y en el directorio del servicio Flask instala dependencias con `pip install -r requirements.txt`.

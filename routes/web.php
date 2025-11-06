@@ -27,6 +27,10 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 
+    // Rutas simples para consumir el servicio ML (Flask)
+    Route::get('/ml', [\App\Http\Controllers\MlController::class, 'showForm'])->name('ml.form');
+    Route::post('/ml/predict', [\App\Http\Controllers\MlController::class, 'predict'])->name('ml.predict');
+
     // ============================================================
     // RUTAS DE ADMINISTRACIÓN (sin middleware de roles)
     // ============================================================

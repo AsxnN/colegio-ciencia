@@ -10,8 +10,11 @@ use App\Http\Controllers\SeccionesController;
 use App\Http\Controllers\CursosController;
 use App\Http\Controllers\NotasController;
 use App\Http\Controllers\AsistenciasController;
+use App\Http\Controllers\IAAdminController;
 use App\Http\Controllers\RecursosEducativosController;
 use App\Http\Controllers\PrediccionesController;
+use App\Http\Controllers\PrediccionesRendimientoController as ControllersPrediccionesRendimientoController;
+use App\Http\Controllers\PrediccionesRendimientoController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,7 +25,7 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    
+
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
@@ -103,42 +106,41 @@ Route::middleware([
     // ============================================================
     // RUTAS DE PRUEBA Y DIAGNÓSTICO
     // ============================================================
-    
+
     // Ruta para listar modelos disponibles del sistema de IA
-    Route::get('/ia-models', function() {
+    Route::get('/ia-models', function () {
         $apiKey = config('services.gemini.api_key');
         $baseUrl = config('services.gemini.base_url');
-        
+
         try {
             $response = Http::timeout(10)
                 ->get("{$baseUrl}/models?key={$apiKey}");
-            
+
             if ($response->successful()) {
                 $data = $response->json();
-                
+
                 // Filtrar solo modelos que soporten generateContent
-                $modelos = collect($data['models'] ?? [])->filter(function($model) {
+                $modelos = collect($data['models'] ?? [])->filter(function ($model) {
                     return in_array('generateContent', $model['supportedGenerationMethods'] ?? []);
-                })->map(function($model) {
+                })->map(function ($model) {
                     return [
                         'name' => $model['name'],
                         'displayName' => $model['displayName'] ?? 'N/A',
                         'description' => $model['description'] ?? 'N/A',
                     ];
                 })->values();
-                
+
                 return response()->json([
                     'success' => true,
                     'total' => $modelos->count(),
                     'modelos' => $modelos
                 ], 200, [], JSON_PRETTY_PRINT);
             }
-            
+
             return response()->json([
                 'success' => false,
                 'error' => $response->body()
             ]);
-            
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -148,18 +150,18 @@ Route::middleware([
     });
 
     // Ruta de prueba para el sistema de IA
-    Route::get('/test-ia', function() {
+    Route::get('/test-ia', function () {
         $service = new \App\Services\GeminiService();
-        
+
         $config = [
             'api_key_configured' => $service->verificarConfiguracion(),
             'api_key_length' => strlen(config('services.gemini.api_key') ?? ''),
             'api_key_preview' => substr(config('services.gemini.api_key') ?? '', 0, 10) . '...',
             'model' => config('services.gemini.model'),
         ];
-        
+
         $testConexion = $service->testConexion();
-        
+
         return response()->json([
             'sistema' => 'Sistema de Predicción Académica con IA',
             'version' => '1.0',
@@ -167,4 +169,23 @@ Route::middleware([
             'test_conexion' => $testConexion,
         ], 200, [], JSON_PRETTY_PRINT);
     });
+
+    /// Rutas simples (sin middleware adicional)
+    Route::get('/estudiante/prediccion', [PrediccionesRendimientoController::class, 'estudiantePrediccion'])
+        ->name('estudiante.prediccion');
+
+    Route::match(['get','post'], '/estudiante/prediccion/generar', [PrediccionesRendimientoController::class, 'estudianteGenerar'])
+    ->name('predicciones.generate');
+
+    Route::get('/docente/predicciones', [PrediccionesRendimientoController::class, 'docenteDashboard'])
+        ->name('docente.predicciones');
+
+    Route::get('/docente/predicciones/export', [PrediccionesRendimientoController::class, 'exportarReporte'])
+        ->name('predicciones.export');
+
+    Route::get('/admin/ia-panel', [IAAdminController::class, 'index'])
+        ->name('admin.ia.panel');
+
+    Route::get('/api/model/status', [IAAdminController::class, 'modelStatus'])
+        ->name('api.model.status');
 });

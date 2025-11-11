@@ -3,19 +3,37 @@
 namespace App\Http\Controllers;
 
 use App\Models\Estudiante;
-use App\Models\HistorialEstudiante;
+use App\Models\HistorialAcademico;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class MlController extends Controller
 {
-    public function showForm( )
+    public function showForm(\Illuminate\Http\Request $request)
     {
         // Mostrar formulario vacío o con lista de estudiantes
         $estudiantes = Estudiante::all();
-        $historial = HistorialEstudiante::all();
+        $historial = HistorialAcademico::all();
 
-        return view('ml.form', compact('estudiantes', 'historial'));
+        // Opcional: si se pasa estudiante_id en query string, cargar sus notas para mostrar en el formulario
+        $estudiante = null;
+        $notas = null;
+
+        if ($request->filled('estudiante_id')) {
+            $estudiante = Estudiante::with('notas.curso')->find($request->input('estudiante_id'));
+            if ($estudiante) {
+                Log::info('MlController.showForm cargó estudiante', [
+                    'estudiante_id' => $estudiante->id,
+                    'notas_count' => $estudiante->notas->count(),
+                    'promedio_general' => $estudiante->notas->count() ? round($estudiante->notas->avg('promedio_final'),2) : null,
+                ]);
+            } else {
+                Log::warning('MlController.showForm no encontró estudiante con id', ['estudiante_id' => $request->input('estudiante_id')]);
+            }
+        }
+
+        return view('ml.form', compact('estudiantes', 'historial', 'estudiante', 'notas'));
     }
 
     public function predict(Request $request)
@@ -48,7 +66,7 @@ class MlController extends Controller
 
         try {
             // Enviar JSON a Flask — Http::post enviará JSON cuando se pase un array
-            $response = Http::timeout(10)
+            $response = Http::timeout(30)
                 ->withHeaders(['Accept' => 'application/json'])
                 ->post(rtrim($flaskUrl, '/') . '/predict', $payload);
 
@@ -64,7 +82,7 @@ class MlController extends Controller
                     $estudiante = Estudiante::find($request->input('Student_ID'));
 
                     if ($estudiante) {
-                        HistorialEstudiante::create([
+                        HistorialAcademico::create([
                             'estudiante_id' => $estudiante->id,
                             'anio' => now()->year,
                             'promedio' => $request->input('Previous_Scores', 0),

@@ -19,22 +19,7 @@ class EstudiantesMasivosSeeder extends Seeder
     {
         $faker = Faker::create('es_PE');
 
-        foreach (range(1, 50) as $index) {
-            DB::table('estudiantes')->insert([
-                'usuario_id' => $index,
-                'seccion_id' => rand(1, 5),
-                'padres_divorciados' => $faker->boolean,
-                'promedio_anterior' => $faker->randomFloat(2, 10, 20),
-                'faltas' => rand(0, 10),
-                'horas_estudio_semanal' => rand(2, 20),
-                'participacion_clases' => rand(1, 5),
-                'nivel_socioeconomico' => $faker->randomElement(['bajo', 'medio', 'alto']),
-                'vive_con' => $faker->randomElement(['padres', 'madre', 'padre', 'otros']),
-                'internet_en_casa' => $faker->boolean,
-                'dispositivo_propio' => $faker->boolean,
-                'motivacion' => $faker->randomElement(['Alta', 'Media', 'Baja']),
-            ]);
-        }
+        
 
         $estudianteRole = Role::where('nombre', 'Estudiante')->first();
 

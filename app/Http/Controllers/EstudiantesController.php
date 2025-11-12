@@ -5,11 +5,16 @@
     use App\Models\Estudiante;
     use App\Models\User;
     use App\Models\Seccion;
+    use App\Models\Nota;
+    use App\Models\Prediccion;
+    use App\Models\PrediccionRendimiento;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Hash;
+    use Illuminate\Support\Facades\Auth;
+    
 
-    class EstudiantesController extends Controller
-    {
+    class EstudiantesController extends Controller 
+    {   
         /**
          * Display a listing of the resource.
          */
@@ -227,4 +232,7 @@
 
             return view('colegio.estudiantes.estadisticas', compact('estadisticas'));
         }
+
+            
+
     }

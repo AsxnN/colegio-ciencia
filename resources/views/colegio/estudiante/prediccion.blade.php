@@ -201,7 +201,7 @@ document.getElementById('prediction-form').addEventListener('submit', async func
         const formData = new FormData(this);
         const data = Object.fromEntries(formData.entries());
         
-        const response = await fetch('{{ route("predicciones.generate") }}', {
+        const response = await fetch('{{ route("estudiant.prediccion.generar") }}', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

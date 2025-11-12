@@ -62,4 +62,9 @@ class Seccion extends Model
     {
         return $this->estudiantes()->count() === 0;
     }
+
+        public function cursos()
+    {
+        return $this->hasMany(Curso::class);
+    }
 }

@@ -15,6 +15,7 @@ use App\Http\Controllers\RecursosEducativosController;
 use App\Http\Controllers\PrediccionesController;
 use App\Http\Controllers\PrediccionesRendimientoController as ControllersPrediccionesRendimientoController;
 use App\Http\Controllers\PrediccionesRendimientoController;
+use App\Http\Controllers\EstudianteController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -170,12 +171,20 @@ Route::middleware([
         ], 200, [], JSON_PRETTY_PRINT);
     });
 
-    /// Rutas simples (sin middleware adicional)
+    // ============================================================
+    // RUTAS PARA ESTUDIANTES
+    // ============================================================
+    
+    // ✅ Predicción de rendimiento
     Route::get('/estudiante/prediccion', [PrediccionesRendimientoController::class, 'estudiantePrediccion'])
         ->name('estudiante.prediccion');
-
+    Route::get('/estudiante/dashboard', [EstudiantesController::class, 'dashboard'])->name('estudiante.dashboard');
     Route::match(['get','post'], '/estudiante/prediccion/generar', [PrediccionesRendimientoController::class, 'estudianteGenerar'])
     ->name('predicciones.generate');
+
+    // ============================================================
+    // RUTAS PARA DOCENTES
+    // ============================================================
 
     Route::get('/docente/predicciones', [PrediccionesRendimientoController::class, 'docenteDashboard'])
         ->name('docente.predicciones');
@@ -183,9 +192,28 @@ Route::middleware([
     Route::get('/docente/predicciones/export', [PrediccionesRendimientoController::class, 'exportarReporte'])
         ->name('predicciones.export');
 
+    // ============================================================
+    // RUTAS PARA ADMINISTRADORES
+    // ============================================================
+
     Route::get('/admin/ia-panel', [IAAdminController::class, 'index'])
         ->name('admin.ia.panel');
 
     Route::get('/api/model/status', [IAAdminController::class, 'modelStatus'])
         ->name('api.model.status');
+
+Route::prefix('estudiante')->name('estudiant.')->group(function () {
+    Route::get('/dashboard', [EstudianteController::class, 'dashboard'])->name('dashboard');
+    Route::get('/cursos', [EstudianteController::class, 'cursos'])->name('cursos');
+    Route::get('/notas', [EstudianteController::class, 'notas'])->name('notas');
+    Route::get('/prediccion', [PrediccionesRendimientoController::class, 'estudiantePrediccion'])->name('prediccion');
+    Route::get('/recomendaciones', [EstudianteController::class, 'recomendaciones'])->name('recomendaciones');
+    Route::get('/alertas', [EstudianteController::class, 'alertas'])->name('alertas');
+    Route::get('/tutorias', [EstudianteController::class, 'tutorias'])->name('tutorias');
+    Route::get('/soporte', [EstudianteController::class, 'soporte'])->name('soporte');
+    Route::get('/perfil', [EstudianteController::class, 'perfil'])->name('perfil');
+    Route::get('/recursos', [EstudianteController::class, 'recursos'])->name('recursos');
+    Route::get('/predicciones', [EstudianteController::class, 'predicciones'])->name('predicciones');
+    Route::match(['get','post'], '/prediccion/generar', [PrediccionesRendimientoController::class, 'estudianteGenerar'])->name('prediccion.generar');
+});
 });

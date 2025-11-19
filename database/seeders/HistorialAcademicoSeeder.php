@@ -12,7 +12,7 @@ class HistorialAcademicoSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $totalAlumnos = 200;
+        $totalAlumnos = 600;
         $years = [2021, 2022, 2023];
         $bimestres = [1, 2, 3, 4];
 

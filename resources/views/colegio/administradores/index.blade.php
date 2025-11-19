@@ -4,7 +4,7 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Gestión de Administradores') }}
             </h2>
-            <a href="{{ route('administradores.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <a href="{{ route('admin.administradores.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Nuevo Administrador
             </a>
         </div>
@@ -52,9 +52,9 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <div class="flex space-x-2">
-                                            <a href="{{ route('administradores.show', $admin) }}" class="text-blue-600 hover:text-blue-900">Ver</a>
-                                            <a href="{{ route('administradores.edit', $admin) }}" class="text-indigo-600 hover:text-indigo-900">Editar</a>
-                                            <form action="{{ route('administradores.destroy', $admin) }}" method="POST" class="inline">
+                                            <a href="{{ route('admin.administradores.show', $admin) }}" class="text-blue-600 hover:text-blue-900">Ver</a>
+                                            <a href="{{ route('admin.administradores.edit', $admin) }}" class="text-indigo-600 hover:text-indigo-900">Editar</a>
+                                            <form action="{{ route('admin.administradores.destroy', $admin) }}" method="POST" class="inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('¿Estás seguro de eliminar este administrador?')">

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->decimal('promedio_anterior', 5, 2)->nullable();
             $table->integer('faltas')->default(0);
             $table->integer('horas_estudio_semanal')->default(0);
+            $table->integer('tutorias_semanales')->default(0);
             $table->tinyInteger('participacion_clases')->nullable();
             $table->enum('nivel_socioeconomico', ['bajo', 'medio', 'alto'])->default('medio');
             $table->enum('vive_con', ['padres', 'madre', 'padre', 'otros'])->default('padres');

@@ -4,7 +4,7 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Gestión de Usuarios') }}
             </h2>
-            <a href="{{ route('usuarios.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <a href="{{ route('admin.usuarios.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Nuevo Usuario
             </a>
         </div>
@@ -46,9 +46,9 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $user->telefono }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <div class="flex space-x-2">
-                                            <a href="{{ route('usuarios.show', $user) }}" class="text-blue-600 hover:text-blue-900">Ver</a>
-                                            <a href="{{ route('usuarios.edit', $user) }}" class="text-indigo-600 hover:text-indigo-900">Editar</a>
-                                            <form action="{{ route('usuarios.destroy', $user) }}" method="POST" class="inline">
+                                            <a href="{{ route('admin.usuarios.show', $user) }}" class="text-blue-600 hover:text-blue-900">Ver</a>
+                                            <a href="{{ route('admin.usuarios.edit', $user) }}" class="text-indigo-600 hover:text-indigo-900">Editar</a>
+                                            <form action="{{ route('admin.usuarios.destroy', $user) }}" method="POST" class="inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('¿Estás seguro de eliminar este usuario?')">

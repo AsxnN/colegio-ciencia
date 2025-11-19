@@ -16,7 +16,7 @@
 
             <!-- Filtros -->
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6 mb-4">
-                <form method="GET" action="{{ route('asistencias.registrar') }}" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <form method="GET" action="{{ route('admin.asistencias.registrar') }}" class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Fecha *</label>
                         <input type="date" name="fecha" value="{{ $fecha }}" required
@@ -58,7 +58,7 @@
             <!-- Listado de estudiantes para marcar asistencia -->
             @if($estudiantes)
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
-                    <form method="POST" action="{{ route('asistencias.guardar-masivo') }}">
+                    <form method="POST" action="{{ route('admin.asistencias.guardar-masivo') }}">
                         @csrf
                         <input type="hidden" name="fecha" value="{{ $fecha }}">
                         <input type="hidden" name="curso_id" value="{{ $cursoId }}">
@@ -126,7 +126,7 @@
                         </div>
 
                         <div class="flex justify-end gap-4 mt-6">
-                            <a href="{{ route('asistencias.index') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+                            <a href="{{ route('admin.asistencias.index') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
                                 Cancelar
                             </a>
                             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">

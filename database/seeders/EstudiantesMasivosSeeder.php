@@ -19,7 +19,7 @@ class EstudiantesMasivosSeeder extends Seeder
     {
         $faker = Faker::create('es_PE');
 
-        
+
 
         $estudianteRole = Role::where('nombre', 'Estudiante')->first();
 
@@ -168,9 +168,9 @@ class EstudiantesMasivosSeeder extends Seeder
 
         $estudiantesCreados = 0;
         $intentos = 0;
-        $maxIntentos = 300;
+        $maxIntentos = 1000;
 
-        while ($estudiantesCreados < 200 && $intentos < $maxIntentos) {
+        while ($estudiantesCreados < 600 && $intentos < $maxIntentos) {
             $intentos++;
 
             // Generar DNI único
@@ -224,6 +224,7 @@ class EstudiantesMasivosSeeder extends Seeder
                     'promedio_anterior' => round(rand(800, 2000) / 100, 2), // 8.00 a 20.00
                     'faltas' => rand(0, 15), // número de inasistencias
                     'horas_estudio_semanal' => rand(2, 25), // horas por semana
+                    'tutorias_semanales' => rand(0, 5),
                     'participacion_clases' => rand(0, 1), // 0 = baja, 1 = activa
                     'nivel_socioeconomico' => collect(['bajo', 'medio', 'alto'])->random(),
                     'vive_con' => collect(['padres', 'madre', 'padre', 'otros'])->random(),
@@ -234,11 +235,14 @@ class EstudiantesMasivosSeeder extends Seeder
 
                 // Asignar TODOS los 13 cursos a cada estudiante
                 foreach ($cursos as $curso) {
-                    // Generar notas aleatorias para cada bimestre
-                    $bim1 = $this->generarNota();
-                    $bim2 = $this->generarNota();
-                    $bim3 = $this->generarNota();
-                    $bim4 = $this->generarNota();
+                    // Calcula el extra según tutorías
+                    $extra = $estudiante->tutorias_semanales * 0.2;
+
+                    // Genera notas con el extra incluido
+                    $bim1 = $this->generarNota($extra);
+                    $bim2 = $this->generarNota($extra);
+                    $bim3 = $this->generarNota($extra);
+                    $bim4 = $this->generarNota($extra);
 
                     // Crear nota
                     $nota = Nota::create([
@@ -314,32 +318,27 @@ class EstudiantesMasivosSeeder extends Seeder
     /**
      * Generar nota aleatoria con distribución realista
      */
-    private function generarNota(): ?float
+    // Modifica la función generarNota para crear notas base
+    private function generarNota(float $extra = 0): ?float
     {
-        // 3% de probabilidad de no tener nota (reducido de 5%)
         if (rand(1, 100) <= 3) {
             return null;
         }
-
-        // Distribución de notas más realista
         $random = rand(1, 100);
-
         if ($random <= 10) {
-            // 10% notas bajas (8-11)
-            return round(rand(800, 1100) / 100, 2);
+            $nota = round(rand(800, 1100) / 100, 2);
         } elseif ($random <= 30) {
-            // 20% notas medias-bajas (11-13)
-            return round(rand(1100, 1300) / 100, 2);
+            $nota = round(rand(1100, 1300) / 100, 2);
         } elseif ($random <= 70) {
-            // 40% notas medias (13-16)
-            return round(rand(1300, 1600) / 100, 2);
+            $nota = round(rand(1300, 1600) / 100, 2);
         } elseif ($random <= 90) {
-            // 20% notas buenas (16-18)
-            return round(rand(1600, 1800) / 100, 2);
+            $nota = round(rand(1600, 1800) / 100, 2);
         } else {
-            // 10% notas excelentes (18-20)
-            return round(rand(1800, 2000) / 100, 2);
+            $nota = round(rand(1800, 2000) / 100, 2);
         }
+
+        $nota += $extra;  // Sumar extra
+        return min(20, round($nota, 2));  // Limitar máximo a 20
     }
 
     /**

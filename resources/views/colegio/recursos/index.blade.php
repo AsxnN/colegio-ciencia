@@ -5,7 +5,7 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Recursos Educativos') }}
             </h2>
-            <a href="{{ route('recursos.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <a href="{{ route('admin.recursos.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Agregar Recurso
             </a>
         </div>
@@ -21,7 +21,7 @@
 
             <!-- Filtros -->
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6 mb-4">
-                <form method="GET" action="{{ route('recursos.index') }}" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <form method="GET" action="{{ route('admin.recursos.index') }}" class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Buscar</label>
                         <input type="text" name="search" value="{{ request('search') }}" placeholder="Título del recurso..."
@@ -56,7 +56,7 @@
                         <button type="submit" class="flex-1 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
                             Filtrar
                         </button>
-                        <a href="{{ route('recursos.index') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+                        <a href="{{ route('admin.recursos.index') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
                             Limpiar
                         </a>
                     </div>
@@ -107,15 +107,15 @@
                             </div>
 
                             <div class="flex gap-2 justify-end">
-                                <a href="{{ route('recursos.show', $recurso) }}" 
+                                <a href="{{ route('admin.recursos.show', $recurso) }}" 
                                    class="text-indigo-600 hover:text-indigo-900 text-sm font-medium">
                                     Ver
                                 </a>
-                                <a href="{{ route('recursos.edit', $recurso) }}" 
+                                <a href="{{ route('admin.recursos.edit', $recurso) }}" 
                                    class="text-yellow-600 hover:text-yellow-900 text-sm font-medium">
                                     Editar
                                 </a>
-                                <form action="{{ route('recursos.destroy', $recurso) }}" method="POST" class="inline">
+                                <form action="{{ route('admin.recursos.destroy', $recurso) }}" method="POST" class="inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="text-red-600 hover:text-red-900 text-sm font-medium"
@@ -129,7 +129,7 @@
                 @empty
                     <div class="col-span-3 text-center py-12">
                         <p class="text-gray-500 text-lg">No se encontraron recursos educativos</p>
-                        <a href="{{ route('recursos.create') }}" class="text-blue-500 hover:text-blue-700 mt-2 inline-block">
+                        <a href="{{ route('admin.recursos.create') }}" class="text-blue-500 hover:text-blue-700 mt-2 inline-block">
                             Agregar el primer recurso
                         </a>
                     </div>

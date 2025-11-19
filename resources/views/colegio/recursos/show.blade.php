@@ -6,10 +6,10 @@
                 {{ __('Detalle del Recurso') }}
             </h2>
             <div class="flex gap-2">
-                <a href="{{ route('recursos.edit', $recurso) }}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
+                <a href="{{ route('admin.recursos.edit', $recurso) }}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
                     Editar
                 </a>
-                <a href="{{ route('recursos.index') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                <a href="{{ route('admin.recursos.index') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
                     Volver
                 </a>
             </div>

@@ -5,7 +5,7 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Gestión de Notas') }}
             </h2>
-            <a href="{{ route('notas.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <a href="{{ route('admin.notas.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Nueva Nota
             </a>
         </div>
@@ -21,7 +21,7 @@
 
             <!-- Filtros -->
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6 mb-4">
-                <form method="GET" action="{{ route('notas.index') }}" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <form method="GET" action="{{ route('admin.notas.index') }}" class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <select name="estudiante_id" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200">
                         <option value="">Todos los estudiantes</option>
                         @foreach($estudiantes as $estudiante)
@@ -51,7 +51,7 @@
                         <button type="submit" class="flex-1 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
                             Filtrar
                         </button>
-                        <a href="{{ route('notas.index') }}" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded text-center">
+                        <a href="{{ route('admin.notas.index') }}" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded text-center">
                             Limpiar
                         </a>
                     </div>
@@ -112,9 +112,9 @@
                                         @endif
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <a href="{{ route('notas.show', $nota) }}" class="text-blue-600 hover:text-blue-900 mr-3">Ver</a>
-                                        <a href="{{ route('notas.edit', $nota) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Editar</a>
-                                        <form action="{{ route('notas.destroy', $nota) }}" method="POST" class="inline">
+                                        <a href="{{ route('admin.notas.show', $nota) }}" class="text-blue-600 hover:text-blue-900 mr-3">Ver</a>
+                                        <a href="{{ route('admin.notas.edit', $nota) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Editar</a>
+                                        <form action="{{ route('admin.notas.destroy', $nota) }}" method="POST" class="inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="text-red-600 hover:text-red-900" 

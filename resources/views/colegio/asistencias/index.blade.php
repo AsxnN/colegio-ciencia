@@ -6,10 +6,10 @@
                 {{ __('Control de Asistencias') }}
             </h2>
             <div class="flex gap-2">
-                <a href="{{ route('asistencias.registrar') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                <a href="{{ route('admin.asistencias.registrar') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                     Registrar Asistencia Masiva
                 </a>
-                <a href="{{ route('asistencias.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                <a href="{{ route('admin.asistencias.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     Registro Individual
                 </a>
             </div>
@@ -26,7 +26,7 @@
 
             <!-- Filtros -->
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6 mb-4">
-                <form method="GET" action="{{ route('asistencias.index') }}" class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                <form method="GET" action="{{ route('admin.asistencias.index') }}" class="grid grid-cols-1 md:grid-cols-5 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Fecha</label>
                         <input type="date" name="fecha" value="{{ request('fecha', today()->format('Y-m-d')) }}"
@@ -70,7 +70,7 @@
                         <button type="submit" class="flex-1 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
                             Filtrar
                         </button>
-                        <a href="{{ route('asistencias.index') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+                        <a href="{{ route('admin.asistencias.index') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
                             Limpiar
                         </a>
                     </div>
@@ -118,8 +118,8 @@
                                         {{ $asistencia->observacion ?? '-' }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <a href="{{ route('asistencias.edit', $asistencia) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Editar</a>
-                                        <form action="{{ route('asistencias.destroy', $asistencia) }}" method="POST" class="inline">
+                                        <a href="{{ route('admin.asistencias.edit', $asistencia) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Editar</a>
+                                        <form action="{{ route('admin.asistencias.destroy', $asistencia) }}" method="POST" class="inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="text-red-600 hover:text-red-900" 

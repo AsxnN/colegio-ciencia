@@ -9,7 +9,7 @@
                    class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
                     Editar
                 </a>
-                <a href="{{ route('docentes.index') }}" 
+                <a href="{{ route('admin.docentes.index') }}" 
                    class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
                     Volver
                 </a>

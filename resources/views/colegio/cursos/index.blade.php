@@ -5,7 +5,7 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Gestión de Cursos') }}
             </h2>
-            <a href="{{ route('cursos.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <a href="{{ route('admin.cursos.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Nuevo Curso
             </a>
         </div>
@@ -21,7 +21,7 @@
 
             <!-- Buscador -->
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6 mb-4">
-                <form method="GET" action="{{ route('cursos.index') }}" class="flex gap-4">
+                <form method="GET" action="{{ route('admin.cursos.index') }}" class="flex gap-4">
                     <input type="text" name="search" placeholder="Buscar por nombre o código..." 
                            value="{{ request('search') }}"
                            class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200">
@@ -30,7 +30,7 @@
                         Buscar
                     </button>
                     
-                    <a href="{{ route('cursos.index') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+                    <a href="{{ route('admin.cursos.index') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
                         Limpiar
                     </a>
                 </form>
@@ -60,9 +60,9 @@
                                     {{ $curso->docente ? $curso->docente->usuario->name : 'Sin asignar' }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <a href="{{ route('cursos.show', $curso) }}" class="text-blue-600 hover:text-blue-900 mr-3">Ver</a>
-                                    <a href="{{ route('cursos.edit', $curso) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Editar</a>
-                                    <form action="{{ route('cursos.destroy', $curso) }}" method="POST" class="inline">
+                                    <a href="{{ route('admin.cursos.show', $curso) }}" class="text-blue-600 hover:text-blue-900 mr-3">Ver</a>
+                                    <a href="{{ route('admin.cursos.edit', $curso) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Editar</a>
+                                    <form action="{{ route('admin.cursos.destroy', $curso) }}" method="POST" class="inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="text-red-600 hover:text-red-900" 

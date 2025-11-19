@@ -50,10 +50,7 @@ class Estudiante extends Model
     }
 
     // Relación con calificaciones
-    public function calificaciones()
-    {
-        return $this->hasMany(Calificacion::class, 'estudiante_id');
-    }
+
 
     // Relación con notas (AGREGADA)
     public function notas()
@@ -71,6 +68,12 @@ class Estudiante extends Model
     public function predicciones()
     {
         return $this->hasMany(PrediccionRendimiento::class, 'estudiante_id');
+    }
+
+    // Relación con recomendaciones IA
+    public function recomendaciones()
+    {
+        return $this->hasMany(RecomendacionIA::class, 'estudiante_id');
     }
 
     // Accessors
@@ -117,7 +120,7 @@ class Estudiante extends Model
         $recursos = [];
         if ($this->internet_en_casa) $recursos[] = 'Internet en casa';
         if ($this->dispositivo_propio) $recursos[] = 'Dispositivo propio';
-        
+
         return empty($recursos) ? 'Sin recursos' : implode(', ', $recursos);
     }
 
@@ -125,14 +128,14 @@ class Estudiante extends Model
     public function scopeConRecursosCompletos($query)
     {
         return $query->where('internet_en_casa', true)
-                    ->where('dispositivo_propio', true);
+            ->where('dispositivo_propio', true);
     }
 
     public function scopeConDificultadesSocioeconomicas($query)
     {
         return $query->where('nivel_socioeconomico', 'bajo')
-                    ->orWhere('internet_en_casa', false)
-                    ->orWhere('dispositivo_propio', false);
+            ->orWhere('internet_en_casa', false)
+            ->orWhere('dispositivo_propio', false);
     }
 
     public function scopeAltaMotivacion($query)
@@ -148,6 +151,31 @@ class Estudiante extends Model
     public function scopeConProblemasFamiliares($query)
     {
         return $query->where('padres_divorciados', true)
-                    ->orWhere('vive_con', '!=', 'padres');
+            ->orWhere('vive_con', '!=', 'padres');
+    }
+
+    //PREDICCIONES POR CURSO
+    public function prediccionesCurso()
+    {
+        return $this->hasMany(PrediccionCurso::class, 'estudiante_id');
+    }
+
+    public function prediccionesGlobales()
+    {
+        return $this->hasMany(PrediccionRendimiento::class, 'estudiante_id');
+    }
+
+    public function getPrediccionMasRecienteAttribute()
+    {
+        return $this->prediccionesGlobales()->latest('created_at')->first();
+    }
+
+    // Método para obtener predicciones por curso más recientes
+    public function prediccionesCursoRecientes()
+    {
+        return $this->prediccionesCurso()
+            ->select('predicciones_curso.*')
+            ->selectRaw('ROW_NUMBER() OVER (PARTITION BY curso_id ORDER BY fecha_prediccion DESC) as rn')
+            ->havingRaw('rn = 1');
     }
 }

@@ -70,7 +70,7 @@
                 </a>
 
                 <!-- Gestionar Docentes -->
-                <a href="{{ route('docentes.index') }}" class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg hover:shadow-2xl transition transform hover:-translate-y-1">
+                <a href="{{ route('admin.docentes.index') }}" class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg hover:shadow-2xl transition transform hover:-translate-y-1">
                     <div class="p-6">
                         <div class="flex items-center">
                             <div class="flex-shrink-0 bg-purple-500 rounded-md p-3">
@@ -91,7 +91,7 @@
                 </a>
 
                 <!-- Registrar Notas -->
-                <a href="{{ route('notas.create') }}" class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg hover:shadow-2xl transition transform hover:-translate-y-1">
+                <a href="{{ route('admin.notas.create') }}" class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg hover:shadow-2xl transition transform hover:-translate-y-1">
                     <div class="p-6">
                         <div class="flex items-center">
                             <div class="flex-shrink-0 bg-blue-500 rounded-md p-3">
@@ -112,7 +112,7 @@
                 </a>
 
                 <!-- Registrar Asistencias -->
-                <a href="{{ route('asistencias.registrar') }}" class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg hover:shadow-2xl transition transform hover:-translate-y-1">
+                <a href="{{ route('admin.asistencias.registrar') }}" class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg hover:shadow-2xl transition transform hover:-translate-y-1">
                     <div class="p-6">
                         <div class="flex items-center">
                             <div class="flex-shrink-0 bg-yellow-500 rounded-md p-3">
@@ -133,7 +133,7 @@
                 </a>
 
                 <!-- Recursos Educativos -->
-                <a href="{{ route('recursos.index') }}" class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg hover:shadow-2xl transition transform hover:-translate-y-1">
+                <a href="{{ route('admin.recursos.index') }}" class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg hover:shadow-2xl transition transform hover:-translate-y-1">
                     <div class="p-6">
                         <div class="flex items-center">
                             <div class="flex-shrink-0 bg-red-500 rounded-md p-3">

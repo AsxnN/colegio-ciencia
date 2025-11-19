@@ -184,7 +184,7 @@
                         <div class="text-6xl mb-4">📚</div>
                         <p class="text-gray-600 text-lg mb-2">No hay estudiantes con notas registradas</p>
                         <p class="text-gray-500 text-sm">Primero debes registrar notas para los estudiantes</p>
-                        <a href="{{ route('notas.index') }}" class="inline-block mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        <a href="{{ route('admin.notas.index') }}" class="inline-block mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             Ir a Notas
                         </a>
                     </div>

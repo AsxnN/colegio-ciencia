@@ -5,10 +5,10 @@
                 {{ __('Gestión de Estudiantes') }}
             </h2>
             <div class="flex space-x-2">
-                <a href="{{ route('estudiantes.estadisticas') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                <a href="{{ route('admin.estudiantes.estadisticas') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                     Estadísticas
                 </a>
-                <a href="{{ route('estudiantes.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                <a href="{{ route('admin.estudiantes.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     Nuevo Estudiante
                 </a>
             </div>
@@ -27,7 +27,7 @@
 
                     <!-- Filtros -->
                     <div class="mb-6 bg-gray-50 p-4 rounded-lg">
-                        <form method="GET" action="{{ route('estudiantes.index') }}" class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                        <form method="GET" action="{{ route('admin.estudiantes.index') }}" class="grid grid-cols-1 md:grid-cols-5 gap-4">
                             <div>
                                 <label for="seccion_id" class="block text-sm font-medium text-gray-700">Sección</label>
                                 <select name="seccion_id" id="seccion_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
@@ -75,7 +75,7 @@
                                 <button type="submit" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2">
                                     Filtrar
                                 </button>
-                                <a href="{{ route('estudiantes.index') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+                                <a href="{{ route('admin.estudiantes.index') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
                                     Limpiar
                                 </a>
                             </div>
@@ -143,9 +143,9 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <div class="flex space-x-2">
-                                            <a href="{{ route('estudiante.perfil', $estudiante->id) }}" class="text-blue-600 hover:text-blue-900">Perfil</a>
-                                            <a href="{{ route('estudiantes.edit', $estudiante) }}" class="text-indigo-600 hover:text-indigo-900">Editar</a>
-                                            <form action="{{ route('estudiantes.destroy', $estudiante) }}" method="POST" class="inline">
+                                            <a href="{{ route('estudiante.estudiante.perfil', $estudiante->id) }}" class="text-blue-600 hover:text-blue-900">Perfil</a>
+                                            <a href="{{ route('admin.estudiantes.edit', $estudiante) }}" class="text-indigo-600 hover:text-indigo-900">Editar</a>
+                                            <form action="{{ route('admin.estudiantes.destroy', $estudiante) }}" method="POST" class="inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('¿Estás seguro de eliminar este estudiante?')">

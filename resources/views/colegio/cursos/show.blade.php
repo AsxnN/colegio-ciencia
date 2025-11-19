@@ -5,7 +5,7 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Detalles del Curso') }}
             </h2>
-            <a href="{{ route('cursos.edit', $curso) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <a href="{{ route('admin.cursos.edit', $curso) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Editar
             </a>
         </div>
@@ -44,7 +44,7 @@
                 </div>
 
                 <div class="mt-6">
-                    <a href="{{ route('cursos.index') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+                    <a href="{{ route('admin.cursos.index') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
                         Volver al listado
                     </a>
                 </div>

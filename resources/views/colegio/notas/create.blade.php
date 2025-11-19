@@ -9,7 +9,7 @@
     <div class="py-12">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
-                <form method="POST" action="{{ route('notas.store') }}">
+                <form method="POST" action="{{ route('admin.notas.store') }}">
                     @csrf
 
                     <!-- Estudiante -->
@@ -99,7 +99,7 @@
                     </div>
 
                     <div class="flex justify-end gap-4 mt-6">
-                        <a href="{{ route('notas.index') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+                        <a href="{{ route('admin.notas.index') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
                             Cancelar
                         </a>
                         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">

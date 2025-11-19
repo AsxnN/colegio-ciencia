@@ -5,6 +5,7 @@
     use App\Models\Estudiante;
     use App\Models\User;
     use App\Models\Seccion;
+    use App\Models\Curso;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Hash;
 
@@ -226,5 +227,99 @@
             ];
 
             return view('colegio.estudiantes.estadisticas', compact('estadisticas'));
+        }
+
+        /**
+         * Mostrar historial de predicciones para un estudiante
+         */
+        public function predicciones($id)
+        {
+            $estudiante = Estudiante::with(['usuario', 'predicciones'])->findOrFail($id);
+
+            // Ordenar historial por fecha (desc)
+            $historial_predicciones = $estudiante->predicciones()->orderBy('created_at', 'desc')->get();
+
+            // La vista existente en el repo se llama 'colegio.estudiante.prediccion' (singular)
+            return view('colegio.estudiante.prediccion', compact('estudiante', 'historial_predicciones'));
+        }
+
+        /**
+         * Mostrar notas del estudiante (stub)
+         */
+        public function notas($id)
+        {
+            $estudiante = Estudiante::with(['usuario', 'notas'])->findOrFail($id);
+            $notas = $estudiante->notas()->orderBy('created_at', 'desc')->get();
+
+            return view('colegio.estudiante.notas', compact('estudiante', 'notas'));
+        }
+
+        /**
+         * Mostrar cursos asignados al estudiante
+         */
+        public function cursos($id)
+        {
+            $estudiante = Estudiante::with(['usuario', 'seccion'])->findOrFail($id);
+
+            // Si el modelo Estudiante define una relación 'cursos', úsala.
+            if (method_exists($estudiante, 'cursos')) {
+                $cursos = $estudiante->cursos()->get();
+            } else {
+                // Fallback: obtener cursos a partir de las notas del estudiante (si existen)
+                try {
+                    $cursoIds = \App\Models\Nota::where('estudiante_id', $estudiante->id)->pluck('curso_id')->unique();
+                    if ($cursoIds->isNotEmpty()) {
+                        $cursos = Curso::whereIn('id', $cursoIds)->get();
+                    } else {
+                        // Si no hay notas, devolver colección vacía para no romper la vista
+                        $cursos = collect();
+                    }
+                } catch (\Throwable $e) {
+                    // En caso de cualquier error en la consulta, devolver colección vacía
+                    $cursos = collect();
+                }
+            }
+
+            return view('colegio.estudiante.cursos', compact('estudiante', 'cursos'));
+        }
+
+        /**
+         * Mostrar recursos educativos del estudiante (stub)
+         */
+        public function recursos($id)
+        {
+            $estudiante = Estudiante::with(['usuario'])->findOrFail($id);
+
+            // Intentar obtener recursos relacionados. Si no hay relación definida, devolver los recursos más recientes.
+            try {
+                // Usar el modelo RecursoEducativo si está disponible
+                $recursos = \App\Models\RecursoEducativo::orderBy('created_at', 'desc')->take(50)->get();
+            } catch (\Throwable $e) {
+                // Fallback: colección vacía para que la vista no rompa
+                $recursos = collect();
+            }
+
+            return view('colegio.estudiante.recursos', compact('estudiante', 'recursos'));
+        }
+
+        /**
+         * Generar recomendaciones (stub)
+         */
+        public function recomendaciones($id)
+        {
+            $estudiante = Estudiante::with(['usuario', 'predicciones'])->findOrFail($id);
+
+            // Lógica básica de recomendaciones: si hay predicciones, generar consejos simples
+            $recomendaciones = [];
+            $ultima = $estudiante->predicciones()->orderBy('created_at', 'desc')->first();
+            if ($ultima) {
+                if ($ultima->nota_predicha >= 16) $recomendaciones[] = 'Mantener hábitos actuales.';
+                elseif ($ultima->nota_predicha >= 14) $recomendaciones[] = 'Incrementar repaso semanal en materias débiles.';
+                else $recomendaciones[] = 'Plan de seguimiento con tutoría y mejora de horas de estudio.';
+            } else {
+                $recomendaciones[] = 'Genera una predicción para obtener recomendaciones personalizadas.';
+            }
+
+            return view('colegio.estudiante.recomendaciones', compact('estudiante', 'recomendaciones'));
         }
     }
